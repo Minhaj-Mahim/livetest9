@@ -1,35 +1,47 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: ButtonColorChangeScreen(),
-  )
-  );
-}
-class ButtonColorChangeScreen extends StatefulWidget {
+//import 'View.dart';
+
+main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
-  _ButtonColorChangeScreenState createState() =>
-      _ButtonColorChangeScreenState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: ButtonColorChangeDemo(),
+    );
+  }
 }
 
-class _ButtonColorChangeScreenState extends State<ButtonColorChangeScreen> {
-  String selectedSize = '';
-  List<bool> buttonSelected = [false, false, false];
 
-  // Function to handle button tap and update state
-  void onButtonTap(int index, String size) {
+class ButtonColorChangeDemo extends StatefulWidget {
+  @override
+  _ButtonColorChangeDemoState createState() => _ButtonColorChangeDemoState();
+}
+
+class _ButtonColorChangeDemoState extends State<ButtonColorChangeDemo> {
+  Color selectedColor = Colors.blue;
+  String selectedSize = 'Small';
+
+  void changeButtonColor(Color newColor, String newSize) {
     setState(() {
-      for (int i = 0; i < buttonSelected.length; i++) {
-        buttonSelected[i] = (i == index);
+      if (selectedColor != newColor) {
+        selectedColor = newColor;
+        selectedSize = newSize;
+      } else {
+        selectedColor = Colors.blue; // Reset to the default color
+        selectedSize = 'Small';
       }
-      selectedSize = size;
     });
+  }
 
-    // Show a Snackbar
+  void showSnackbar(BuildContext context, String text) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text("Selected Size: $selectedSize"),
-        duration: Duration(seconds: 2),
+        content: Text(text),
+        duration: Duration(seconds: 1),
       ),
     );
   }
@@ -38,70 +50,157 @@ class _ButtonColorChangeScreenState extends State<ButtonColorChangeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Button Color Change'),
+        title: Text('Size Selector'),
       ),
       body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () => onButtonTap(0, 'Small'),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  buttonSelected[0] ? Colors.green : Colors.blue,
+        child: Wrap(
+          alignment: WrapAlignment.start,
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  changeButtonColor(Colors.blue, 'S');
+                  showSnackbar(context, 'Size: S');
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: selectedColor == Colors.blue
+                      ? Colors.amber
+                      : Colors.grey, // Change the color based on selection
+                ),
+                child: Text(
+                  'S',
+                  style: TextStyle(
+                    color: selectedColor == Colors.blue
+                        ? Colors.white
+                        : Colors
+                        .black, // Change the text color based on selection
+                  ),
                 ),
               ),
-              child: Text('S'),
             ),
-            SizedBox(width: 20),
-            ElevatedButton(
-              onPressed: () => onButtonTap(1, 'Medium'),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  buttonSelected[1] ? Colors.green : Colors.blue,
+            SizedBox(width: 16),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  changeButtonColor(Colors.green, 'M');
+                  showSnackbar(context, 'Size: M');
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: selectedColor == Colors.green
+                      ? Colors.amber
+                      : Colors.grey,
+                ),
+                child: Text(
+                  'M',
+                  style: TextStyle(
+                    color: selectedColor == Colors.green
+                        ? Colors.white
+                        : Colors.black,
+                  ),
                 ),
               ),
-              child: Text('M'),
             ),
-            SizedBox(width: 20),
-            ElevatedButton(
-              onPressed: () => onButtonTap(2, 'Large'),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  buttonSelected[2] ? Colors.green : Colors.blue,
+            SizedBox(width: 16),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  changeButtonColor(Colors.red, 'L');
+                  showSnackbar(context, 'Size: L');
+                },
+                style: ElevatedButton.styleFrom(
+                  primary:
+                  selectedColor == Colors.red ? Colors.amber : Colors.grey,
+                ),
+                child: Text(
+                  'L',
+                  style: TextStyle(
+                    color: selectedColor == Colors.red
+                        ? Colors.white
+                        : Colors.black,
+                  ),
                 ),
               ),
-              child: Text('L'),
             ),
-            SizedBox(width: 20),
-            ElevatedButton(
-              onPressed: () => onButtonTap(2, 'Extra Large'),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  buttonSelected[2] ? Colors.green : Colors.blue,
-                ),
-              ),
-              child: Text('XL'),
+            SizedBox(
+              width: 16,
             ),
-            SizedBox(width: 20),
-            ElevatedButton(
-              onPressed: () => onButtonTap(2, 'Extra Extra Large'),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  buttonSelected[2] ? Colors.green : Colors.blue,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  changeButtonColor(Colors.purple, 'XL');
+                  showSnackbar(context, 'Size: XL');
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: selectedColor == Colors.purple
+                      ? Colors.amber
+                      : Colors.grey,
+                ),
+                child: Text(
+                  'XL',
+                  style: TextStyle(
+                    color: selectedColor == Colors.red
+                        ? Colors.white
+                        : Colors.black,
+                  ),
                 ),
               ),
-              child: Text('XXL'),
             ),
-            SizedBox(width: 20),
-            ElevatedButton(
-              onPressed: () => onButtonTap(2, 'Extra Extra Extra Large'),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  buttonSelected[2] ? Colors.green : Colors.blue,
+            SizedBox(
+              width: 16,
+              height: 16,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  changeButtonColor(Colors.white, 'XXL');
+                  showSnackbar(context, 'Size: XXL');
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: selectedColor == Colors.white
+                      ? Colors.amber
+                      : Colors.grey,
+                ),
+                child: Text(
+                  'XXL',
+                  style: TextStyle(
+                    color: selectedColor == Colors.red
+                        ? Colors.white
+                        : Colors.black,
+                  ),
                 ),
               ),
-              child: Text('XXXL'),
+            ),
+            SizedBox(
+              width: 16,
+              height: 16,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  changeButtonColor(Colors.brown, 'XXXL');
+                  showSnackbar(context, 'Size: XXXL');
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: selectedColor == Colors.brown
+                      ? Colors.amber
+                      : Colors.grey,
+                ),
+                child: Text(
+                  'XXXL',
+                  style: TextStyle(
+                    color: selectedColor == Colors.red
+                        ? Colors.white
+                        : Colors.black,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
