@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-//import 'View.dart';
-
 main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -51,6 +49,7 @@ class _ButtonColorChangeDemoState extends State<ButtonColorChangeDemo> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Size Selector'),
+        centerTitle: true,
       ),
       body: Center(
         child: Wrap(
@@ -67,15 +66,14 @@ class _ButtonColorChangeDemoState extends State<ButtonColorChangeDemo> {
                 style: ElevatedButton.styleFrom(
                   primary: selectedColor == Colors.blue
                       ? Colors.amber
-                      : Colors.grey, // Change the color based on selection
+                      : Colors.grey,
                 ),
                 child: Text(
                   'S',
                   style: TextStyle(
                     color: selectedColor == Colors.blue
                         ? Colors.white
-                        : Colors
-                        .black, // Change the text color based on selection
+                        : Colors.black,
                   ),
                 ),
               ),
